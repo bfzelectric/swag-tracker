@@ -6,7 +6,7 @@ Employee swag requests and inventory fulfillment for BFZ Electric.
 
 - Public visitors select an active employee and submit a request without signing in.
 - The public catalog contains only inventory marked orderable with stock on hand.
-- BFZ Microsoft accounts can access administration, except `foreman@bfzelectric.com`.
+- Eligible BFZ Microsoft accounts can access administration.
 - Administrators can fulfill requests atomically, manage category availability, search inventory, and import/export inventory snapshots.
 - Fulfillment deducts stock and creates an immutable inventory event.
 
