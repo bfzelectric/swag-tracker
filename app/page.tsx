@@ -23,9 +23,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
+import inventorySnapshot from './inventory-data.json';
 
 type CatalogItem = { category: string; name: string; sizes: string[]; color: string };
 type CartLine = { name: string; size: string; qty: number };
+type InventoryRecord = { category: string; name: string; color: string; size: string; qty: number; min: number; orderable: boolean };
 type PublicStep = 'employee' | 'category' | 'item' | 'size' | 'review';
 type AdminView = 'tickets' | 'inventory' | 'availability' | 'history';
 type WebMcpContext = {
@@ -42,19 +44,36 @@ type WebMcpContext = {
   ) => void | Promise<void>;
 };
 
-const catalog: CatalogItem[] = [
-  { category: 'T-shirts', name: 'Black Tee', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Black' },
-  { category: 'T-shirts', name: 'Gray Tee', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Gray' },
-  { category: 'T-shirts', name: 'Yellow Tee Mesh', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Yellow' },
-  { category: 'T-shirts', name: 'Orange Tee Mesh', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Safety yellow' },
-  { category: 'Long sleeves', name: 'Gray Long Sleeve', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Gray' },
-  { category: 'Long sleeves', name: 'Yellow Long Sleeve', sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'], color: 'Yellow' },
-  { category: 'Safety', name: 'High-Vis Vest', sizes: ['M', 'L', 'XL', 'XXL'], color: 'High-vis' },
-  { category: 'Lifestyle', name: 'Growler Water Jug w/ Flag Logo', sizes: ['One size'], color: 'Black' },
-  { category: 'Lifestyle', name: 'Black Travel Mug w/ Flag Logo', sizes: ['One size'], color: 'Black' },
-  { category: 'Hats', name: 'Black/Gray Snapback', sizes: ['One size'], color: 'Black / gray' },
-  { category: 'Hats', name: 'Gray/Yellow Snapback', sizes: ['One size'], color: 'Gray / yellow' },
-];
+const inventoryRows = inventorySnapshot.items as InventoryRecord[];
+const categoryLabels: Record<string, string> = {
+  Tshirt: 'T-shirts',
+  'Long Sleeve Tshirt': 'Long sleeves',
+};
+const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'One size'];
+const catalog: CatalogItem[] = [...inventoryRows.filter((row) => row.orderable && row.qty > 0).reduce((items, row) => {
+  const category = categoryLabels[row.category] ?? row.category;
+  const size = row.size || 'One size';
+  const existing = items.get(row.name);
+  if (existing) {
+    if (!existing.sizes.includes(size)) existing.sizes.push(size);
+  } else {
+    items.set(row.name, { category, name: row.name, sizes: [size], color: row.color || 'High-vis' });
+  }
+  return items;
+}, new Map<string, CatalogItem>()).values()].map((item) => ({
+  ...item,
+  sizes: item.sizes.sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b)),
+}));
+const unitsInStock = inventoryRows.reduce((sum, row) => sum + row.qty, 0);
+const importedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date(inventorySnapshot.exportedAt));
+const availabilityGroups = [...new Set(inventoryRows.map((row) => row.category))].map((category) => {
+  const rows = inventoryRows.filter((row) => row.category === category);
+  return {
+    name: categoryLabels[category] ?? category,
+    products: new Set(rows.map((row) => row.name)).size,
+    enabled: rows.some((row) => row.orderable),
+  };
+});
 
 const demoEmployees = ['Select an employee…', 'Alex Morgan', 'Casey Brooks', 'Jordan Lee', 'Taylor Reed'];
 const demoTickets = [
@@ -62,15 +81,6 @@ const demoTickets = [
   { id: 'BFZ-0147', employee: 'Casey Brooks', time: 'Yesterday · 3:18 PM', lines: ['2× Yellow Tee Mesh · M'], status: 'open' },
   { id: 'BFZ-0146', employee: 'Taylor Reed', time: 'Aug 31 · 10:04 AM', lines: ['1× Gray Long Sleeve · XL'], status: 'fulfilled' },
 ];
-const inventoryRows = [
-  { name: 'Black Tee', size: 'M', qty: 13, min: 20 },
-  { name: 'Black Tee', size: 'L', qty: 48, min: 20 },
-  { name: 'Gray Tee', size: 'XL', qty: 70, min: 20 },
-  { name: 'Orange Tee Mesh', size: 'M', qty: 0, min: 20 },
-  { name: 'Yellow Long Sleeve', size: 'S', qty: 3, min: 5 },
-  { name: 'High-Vis Vest', size: 'XL', qty: 15, min: 0 },
-];
-
 function Brand() {
   return <div className="brand" aria-label="BFZ Swag Tracker"><span className="brand-mark" aria-hidden="true"><span /></span><span><strong>BFZ SWAG TRACKER</strong><small>orders & stock</small></span></div>;
 }
@@ -184,8 +194,10 @@ function AdminPreview({ onExit }: { onExit: () => void }) {
   const [view, setView] = useState<AdminView>('tickets');
   const [signedIn, setSignedIn] = useState(false);
   const [query, setQuery] = useState('');
+  const [inventoryQuery, setInventoryQuery] = useState('');
   const [tickets, setTickets] = useState(demoTickets);
   const visibleTickets = tickets.filter((ticket) => ticket.employee.toLowerCase().includes(query.toLowerCase()) || ticket.id.toLowerCase().includes(query.toLowerCase()));
+  const visibleInventory = inventoryRows.filter((row) => `${row.name} ${row.category} ${row.color} ${row.size}`.toLowerCase().includes(inventoryQuery.toLowerCase()));
   const lowCount = inventoryRows.filter((row) => row.qty <= row.min).length;
 
   if (!signedIn) return <div className="admin-login-page"><header className="site-header"><Brand /><div className="header-actions"><ThemeToggle /><Button variant="ghost" onClick={onExit}>Back to request form</Button></div></header><main className="login-card"><span className="login-icon"><Settings2 /></span><p className="eyebrow">ADMINISTRATION</p><h1>Manage swag & requests</h1><p>BFZ team members can use their Microsoft work account. The <strong>foreman@bfzelectric.com</strong> account will be excluded.</p><Button className="microsoft-button" onClick={() => setSignedIn(true)}><span className="ms-mark"><i /><i /><i /><i /></span> Continue with Microsoft</Button><small>Interactive prototype — no authentication occurs.</small></main></div>;
@@ -196,10 +208,10 @@ function AdminPreview({ onExit }: { onExit: () => void }) {
   return <div className="admin-app">
     <aside className="admin-sidebar"><Brand /><nav>{navItems.map((entry) => <button key={entry.id} className={view === entry.id ? 'active' : ''} onClick={() => setView(entry.id)}>{entry.icon}<span>{entry.label}</span>{entry.id === 'tickets' && <b>{tickets.filter((ticket) => ticket.status === 'open').length}</b>}</button>)}</nav><div className="admin-profile"><span>JM</span><div><strong>Jordan Miller</strong><small>Administrator</small></div><button aria-label="Sign out" onClick={() => setSignedIn(false)}><LogIn /></button></div></aside>
     <main className="admin-main"><div className="mobile-admin-bar"><Brand /><div className="header-actions"><ThemeToggle /><Button variant="outline" size="sm" onClick={onExit}>Exit demo</Button></div></div><header className="admin-top"><div><p className="eyebrow">ADMIN WORKSPACE</p><h1>{navItems.find((entry) => entry.id === view)?.label}</h1></div><div className="header-actions"><ThemeToggle /><Button variant="outline" onClick={onExit}>View request form</Button></div></header>
-      <section className="stats-grid"><article><span><ClipboardList /></span><div><small>OPEN TICKETS</small><strong>{tickets.filter((ticket) => ticket.status === 'open').length}</strong></div></article><article><span><Package /></span><div><small>UNITS IN STOCK</small><strong>1,072</strong></div></article><article className="alert-stat"><span><Archive /></span><div><small>LOW / OUT</small><strong>{lowCount}</strong></div></article></section>
+      <section className="stats-grid"><article><span><ClipboardList /></span><div><small>OPEN TICKETS</small><strong>{tickets.filter((ticket) => ticket.status === 'open').length}</strong></div></article><article><span><Package /></span><div><small>UNITS IN STOCK</small><strong>{unitsInStock.toLocaleString()}</strong></div></article><article className="alert-stat"><span><Archive /></span><div><small>LOW / OUT</small><strong>{lowCount}</strong></div></article></section>
       {view === 'tickets' && <section><div className="admin-tools"><div className="search-box"><Search /><input aria-label="Search tickets" placeholder="Search employee or ticket…" value={query} onChange={(event) => setQuery(event.target.value)} /></div><Button className="primary-action"><Plus /> New order</Button></div><div className="ticket-grid">{visibleTickets.map((ticket) => <article className={`ticket-card ${ticket.status}`} key={ticket.id}><div className="ticket-top"><span>{ticket.id}</span><small>{ticket.status}</small></div><h2>{ticket.employee}</h2><p>{ticket.time}</p><ul>{ticket.lines.map((line) => <li key={line}>{line}</li>)}</ul>{ticket.status === 'open' ? <Button className="fulfill-button" onClick={() => setTickets((current) => current.map((entry) => entry.id === ticket.id ? { ...entry, status: 'fulfilled' } : entry))}><Check /> Fulfill & deduct</Button> : <div className="fulfilled-label"><Check /> Fulfilled</div>}</article>)}</div></section>}
-      {view === 'inventory' && <section className="data-panel"><div className="panel-top"><div><h2>Inventory snapshot</h2><p>132 size-level records imported September 2, 2026.</p></div><div><Button variant="outline"><Upload /> Import JSON</Button><Button variant="outline"><Download /> Export</Button></div></div><div className="data-table"><div className="data-row data-head"><span>Item</span><span>Size</span><span>On hand</span><span>Minimum</span><span>Status</span></div>{inventoryRows.map((row) => <div className="data-row" key={`${row.name}-${row.size}`}><strong>{row.name}</strong><span>{row.size}</span><span>{row.qty}</span><span>{row.min}</span><span className={row.qty === 0 ? 'stock-out' : row.qty <= row.min ? 'stock-low' : 'stock-good'}>{row.qty === 0 ? 'Out' : row.qty <= row.min ? 'Low' : 'Good'}</span></div>)}</div></section>}
-      {view === 'availability' && <section className="data-panel"><div className="panel-top"><div><h2>Request availability</h2><p>Hide stocked items that should not be requested right now.</p></div></div>{['T-shirts', 'Long sleeves', 'Safety', 'Lifestyle', 'Hats'].map((name, i) => <div className="availability-row" key={name}><div><CategoryIcon category={name} /><span><strong>{name}</strong><small>{catalog.filter((entry) => entry.category === name).length} products</small></span></div><button className={`toggle ${i === 4 ? 'off' : ''}`} aria-label={`Toggle ${name}`}><i /></button></div>)}</section>}
+      {view === 'inventory' && <section className="data-panel"><div className="panel-top"><div><h2>Inventory snapshot</h2><p>{inventoryRows.length} size-level records imported {importedDate}.</p></div><div><Button variant="outline"><Upload /> Import JSON</Button><Button variant="outline"><Download /> Export</Button></div></div><div className="inventory-toolbar"><div className="search-box"><Search /><input aria-label="Search inventory" placeholder="Search item, category, color, or size…" value={inventoryQuery} onChange={(event) => setInventoryQuery(event.target.value)} /></div><small>Showing {visibleInventory.length} of {inventoryRows.length} records</small></div><div className="data-table"><div className="data-row data-head"><span>Item</span><span>Category</span><span>Size</span><span>On hand</span><span>Minimum</span><span>Status</span><span>Orderable</span></div>{visibleInventory.map((row) => <div className="data-row" key={`${row.name}-${row.size}`}><strong>{row.name}</strong><span>{categoryLabels[row.category] ?? row.category}</span><span>{row.size || 'One size'}</span><span>{row.qty}</span><span>{row.min}</span><span className={row.qty === 0 ? 'stock-out' : row.qty <= row.min ? 'stock-low' : 'stock-good'}>{row.qty === 0 ? 'Out' : row.qty <= row.min ? 'Low' : 'Good'}</span><span className={row.orderable ? 'orderable-yes' : 'orderable-no'}>{row.orderable ? 'Yes' : 'No'}</span></div>)}</div></section>}
+      {view === 'availability' && <section className="data-panel"><div className="panel-top"><div><h2>Request availability</h2><p>Imported orderable settings determine what appears on the public request form.</p></div></div>{availabilityGroups.map((group) => <div className="availability-row" key={group.name}><div><CategoryIcon category={group.name} /><span><strong>{group.name}</strong><small>{group.products} product{group.products === 1 ? '' : 's'}</small></span></div><button className={`toggle ${group.enabled ? '' : 'off'}`} aria-label={`Toggle ${group.name}`}><i /></button></div>)}</section>}
       {view === 'history' && <section className="data-panel"><div className="panel-top"><div><h2>Fulfillment history</h2><p>A permanent record of delivered BFZ gear.</p></div></div><div className="history-row"><span className="history-check"><Check /></span><div><strong>BFZ-0146 · Taylor Reed</strong><p>Gray Long Sleeve · XL</p></div><time>Aug 31 · 10:04 AM</time></div><div className="history-row"><span className="history-check"><Check /></span><div><strong>BFZ-0145 · Alex Morgan</strong><p>Black Tee · L, High-Vis Vest · L</p></div><time>Aug 29 · 2:41 PM</time></div></section>}
     </main>
   </div>;

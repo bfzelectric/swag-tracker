@@ -1,0 +1,1196 @@
+{
+  "app": "bfz-swag-tracker",
+  "type": "inventory-snapshot",
+  "exportedAt": "2026-09-02T11:45:50.314Z",
+  "count": 132,
+  "items": [
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "XXXXL",
+      "qty": 6,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "S",
+      "qty": 2,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "M",
+      "qty": 0,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "XL",
+      "qty": 13,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "XXL",
+      "qty": 13,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "XXXXL",
+      "qty": 4,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "S",
+      "qty": 3,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "M",
+      "qty": 8,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "XL",
+      "qty": 0,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "XXL",
+      "qty": 15,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "XXXXL",
+      "qty": 5,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "S",
+      "qty": 3,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "M",
+      "qty": 4,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "XL",
+      "qty": 16,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "XXL",
+      "qty": 14,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "XXXL",
+      "qty": 4,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "XXXXL",
+      "qty": 5,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "XXXXL",
+      "qty": 8,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "XXXL",
+      "qty": 13,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "XXXL",
+      "qty": 10,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "XXL",
+      "qty": 40,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "XL",
+      "qty": 70,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "M",
+      "qty": 25,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "S",
+      "qty": 23,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "XXXL",
+      "qty": 12,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "XXL",
+      "qty": 38,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "M",
+      "qty": 13,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "S",
+      "qty": 25,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "XL",
+      "qty": 65,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "XL",
+      "qty": 74,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "XXL",
+      "qty": 36,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Black Tee",
+      "color": "Black",
+      "size": "L",
+      "qty": 48,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "M",
+      "qty": 32,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Gray Tee",
+      "color": "Gray",
+      "size": "L",
+      "qty": 58,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "L",
+      "qty": 0,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "L",
+      "qty": 65,
+      "min": 20,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "S",
+      "qty": 17,
+      "min": 15,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Yellow Tee Mesh",
+      "color": "Yellow",
+      "size": "XXXXL",
+      "qty": 8,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Gray Long Sleeve",
+      "color": "Gray",
+      "size": "L",
+      "qty": 10,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "L",
+      "qty": 11,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "L",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "S",
+      "qty": 5,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "XL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "XXL",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Yellow Long Sleeve",
+      "color": "Yellow",
+      "size": "XXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "XL",
+      "qty": 8,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "L",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "S",
+      "qty": 19,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Tshirt",
+      "name": "Orange Tee Mesh",
+      "color": "Yellow",
+      "size": "XXXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "XXL",
+      "qty": 5,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Safety",
+      "name": "High-Vis Vest",
+      "color": "",
+      "size": "M",
+      "qty": 15,
+      "min": 0,
+      "orderable": true
+    },
+    {
+      "category": "Safety",
+      "name": "High-Vis Vest",
+      "color": "",
+      "size": "XL",
+      "qty": 15,
+      "min": 0,
+      "orderable": true
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "XXXXL",
+      "qty": 11,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Tshirt",
+      "name": "Navy Tee",
+      "color": "Navy",
+      "size": "XXXL",
+      "qty": 8,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Lifestyle",
+      "name": "Growler Water jug w/ Flag Logo",
+      "color": "Black",
+      "size": "",
+      "qty": 17,
+      "min": 5,
+      "orderable": true
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "XXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Safety",
+      "name": "High-Vis Vest",
+      "color": "",
+      "size": "L",
+      "qty": 15,
+      "min": 0,
+      "orderable": true
+    },
+    {
+      "category": "Safety",
+      "name": "High-Vis Vest",
+      "color": "",
+      "size": "XXL",
+      "qty": 15,
+      "min": 0,
+      "orderable": true
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "XXXXL",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Beer",
+      "name": "Get Lit",
+      "color": "Not Applicable",
+      "size": "",
+      "qty": 0,
+      "min": 100,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "L",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Lifestyle",
+      "name": "Black Travel Mugs w/ Flag Logo",
+      "color": "Black",
+      "size": "",
+      "qty": 4,
+      "min": 10,
+      "orderable": true
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "M",
+      "qty": 16,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "S",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "XXXL",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "L",
+      "qty": 3,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "M",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "S",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "XL",
+      "qty": 16,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "XXL",
+      "qty": 33,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "XXXL",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Long Sleeve Tshirt",
+      "name": "Granite Long Sleeve",
+      "color": "Navy",
+      "size": "XXXXL",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "L",
+      "qty": 5,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "M",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "S",
+      "qty": 1,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "XL",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "XS",
+      "qty": 1,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "XXL",
+      "qty": 2,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Jacket",
+      "name": "Eddie Bauer Navy",
+      "color": "Navy",
+      "size": "XXXL",
+      "qty": 0,
+      "min": 0,
+      "orderable": false
+    },
+    {
+      "category": "Hats",
+      "name": "Black/Gray Snapbacks",
+      "color": "Yellow",
+      "size": "",
+      "qty": 1,
+      "min": 10,
+      "orderable": true
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "L",
+      "qty": 9,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Carhartt Hoodie",
+      "color": "Black",
+      "size": "XL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hats",
+      "name": "Black/Gray Flat Brim",
+      "color": "Yellow",
+      "size": "",
+      "qty": 6,
+      "min": 10,
+      "orderable": false
+    },
+    {
+      "category": "Hats",
+      "name": "Black/White Snapbacks",
+      "color": "Yellow",
+      "size": "",
+      "qty": 42,
+      "min": 10,
+      "orderable": false
+    },
+    {
+      "category": "Hats",
+      "name": "Camo Beanies",
+      "color": "Yellow",
+      "size": "",
+      "qty": 19,
+      "min": 10,
+      "orderable": false
+    },
+    {
+      "category": "Hats",
+      "name": "Gray/Yellow Snapbacks",
+      "color": "Yellow",
+      "size": "",
+      "qty": 44,
+      "min": 10,
+      "orderable": true
+    },
+    {
+      "category": "Hats",
+      "name": "Black/Red Flat Brim",
+      "color": "Yellow",
+      "size": "",
+      "qty": 12,
+      "min": 10,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "XXXL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Black Hoodie",
+      "color": "Black",
+      "size": "XXXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "L",
+      "qty": 5,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "S",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "XL",
+      "qty": 12,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "XXL",
+      "qty": 34,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "XXXL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Granite Hoodie",
+      "color": "Navy",
+      "size": "XXXXL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "S",
+      "qty": 10,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "XL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "XXL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "L",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "S",
+      "qty": 5,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "XL",
+      "qty": 8,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "XXL",
+      "qty": 4,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "XXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Gray Hoodie",
+      "color": "Gray",
+      "size": "XXXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "XXXL",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Light Pink Hoodie",
+      "color": "Pink",
+      "size": "XXXXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "M",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "S",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "XL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "XXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "XXXL",
+      "qty": 1,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "XXXXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "L",
+      "qty": 24,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "M",
+      "qty": 5,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "S",
+      "qty": 26,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "XL",
+      "qty": 25,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "XXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "XXXXL",
+      "qty": 3,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "XL",
+      "qty": 15,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "XXXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "XXXXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Neon Pink Hoodie",
+      "color": "Pink",
+      "size": "L",
+      "qty": 4,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Orange Hoodie",
+      "color": "Orange",
+      "size": "XXL",
+      "qty": 2,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "S",
+      "qty": 7,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "M",
+      "qty": 10,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "L",
+      "qty": 12,
+      "min": 5,
+      "orderable": false
+    },
+    {
+      "category": "Hoodie",
+      "name": "Yellow Hoodie",
+      "color": "Yellow",
+      "size": "XXL",
+      "qty": 0,
+      "min": 5,
+      "orderable": false
+    }
+  ]
+}
