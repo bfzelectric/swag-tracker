@@ -15,6 +15,8 @@ import {
   Search,
   Settings2,
   Shirt,
+  Moon,
+  Sun,
   Upload,
   X,
 } from 'lucide-react';
@@ -71,6 +73,17 @@ const inventoryRows = [
 
 function Brand() {
   return <div className="brand" aria-label="BFZ Swag Tracker"><span className="brand-mark" aria-hidden="true"><span /></span><span><strong>BFZ SWAG TRACKER</strong><small>orders & stock</small></span></div>;
+}
+
+function ThemeToggle() {
+  function toggleTheme() {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    try { localStorage.setItem('bfz-swag-theme', next); } catch { /* Theme still applies for this visit. */ }
+  }
+
+  return <Button variant="outline" size="icon" className="theme-toggle" aria-label="Toggle color theme" title="Toggle color theme" onClick={toggleTheme}><span className="show-in-dark"><Sun /></span><span className="show-in-light"><Moon /></span></Button>;
 }
 
 function CategoryIcon({ category }: { category: string }) {
@@ -140,7 +153,7 @@ function PublicOrder({ onAdmin }: { onAdmin: () => void }) {
   }
 
   return <>
-    <header className="site-header"><Brand /><Button variant="ghost" className="admin-link" onClick={onAdmin}><LogIn /> Administrator</Button></header>
+    <header className="site-header"><Brand /><div className="header-actions"><ThemeToggle /><Button variant="ghost" className="admin-link" onClick={onAdmin}><LogIn /> Administrator</Button></div></header>
     <main className="request-shell">
       <section className="request-intro"><div><p className="eyebrow">BFZ EMPLOYEE GEAR</p><h1>Request company swag.</h1><p>Choose who it’s for, add the items you need, and the BFZ team will take it from there.</p></div><div className="mini-process" aria-label="Three step process"><span className="active">1</span><i /><span>2</span><i /><span>3</span></div></section>
       <section className="order-layout">
@@ -175,14 +188,14 @@ function AdminPreview({ onExit }: { onExit: () => void }) {
   const visibleTickets = tickets.filter((ticket) => ticket.employee.toLowerCase().includes(query.toLowerCase()) || ticket.id.toLowerCase().includes(query.toLowerCase()));
   const lowCount = inventoryRows.filter((row) => row.qty <= row.min).length;
 
-  if (!signedIn) return <div className="admin-login-page"><header className="site-header"><Brand /><Button variant="ghost" onClick={onExit}>Back to request form</Button></header><main className="login-card"><span className="login-icon"><Settings2 /></span><p className="eyebrow">ADMINISTRATION</p><h1>Manage swag & requests</h1><p>BFZ team members can use their Microsoft work account. The <strong>foreman@bfzelectric.com</strong> account will be excluded.</p><Button className="microsoft-button" onClick={() => setSignedIn(true)}><span className="ms-mark"><i /><i /><i /><i /></span> Continue with Microsoft</Button><small>Interactive prototype — no authentication occurs.</small></main></div>;
+  if (!signedIn) return <div className="admin-login-page"><header className="site-header"><Brand /><div className="header-actions"><ThemeToggle /><Button variant="ghost" onClick={onExit}>Back to request form</Button></div></header><main className="login-card"><span className="login-icon"><Settings2 /></span><p className="eyebrow">ADMINISTRATION</p><h1>Manage swag & requests</h1><p>BFZ team members can use their Microsoft work account. The <strong>foreman@bfzelectric.com</strong> account will be excluded.</p><Button className="microsoft-button" onClick={() => setSignedIn(true)}><span className="ms-mark"><i /><i /><i /><i /></span> Continue with Microsoft</Button><small>Interactive prototype — no authentication occurs.</small></main></div>;
 
   const navItems: { id: AdminView; label: string; icon: React.ReactNode }[] = [
     { id: 'tickets', label: 'Tickets', icon: <ClipboardList /> }, { id: 'inventory', label: 'Inventory', icon: <Package /> }, { id: 'availability', label: 'Availability', icon: <Settings2 /> }, { id: 'history', label: 'History', icon: <History /> },
   ];
   return <div className="admin-app">
     <aside className="admin-sidebar"><Brand /><nav>{navItems.map((entry) => <button key={entry.id} className={view === entry.id ? 'active' : ''} onClick={() => setView(entry.id)}>{entry.icon}<span>{entry.label}</span>{entry.id === 'tickets' && <b>{tickets.filter((ticket) => ticket.status === 'open').length}</b>}</button>)}</nav><div className="admin-profile"><span>JM</span><div><strong>Jordan Miller</strong><small>Administrator</small></div><button aria-label="Sign out" onClick={() => setSignedIn(false)}><LogIn /></button></div></aside>
-    <main className="admin-main"><div className="mobile-admin-bar"><Brand /><Button variant="outline" size="sm" onClick={onExit}>Exit demo</Button></div><header className="admin-top"><div><p className="eyebrow">ADMIN WORKSPACE</p><h1>{navItems.find((entry) => entry.id === view)?.label}</h1></div><Button variant="outline" onClick={onExit}>View request form</Button></header>
+    <main className="admin-main"><div className="mobile-admin-bar"><Brand /><div className="header-actions"><ThemeToggle /><Button variant="outline" size="sm" onClick={onExit}>Exit demo</Button></div></div><header className="admin-top"><div><p className="eyebrow">ADMIN WORKSPACE</p><h1>{navItems.find((entry) => entry.id === view)?.label}</h1></div><div className="header-actions"><ThemeToggle /><Button variant="outline" onClick={onExit}>View request form</Button></div></header>
       <section className="stats-grid"><article><span><ClipboardList /></span><div><small>OPEN TICKETS</small><strong>{tickets.filter((ticket) => ticket.status === 'open').length}</strong></div></article><article><span><Package /></span><div><small>UNITS IN STOCK</small><strong>1,072</strong></div></article><article className="alert-stat"><span><Archive /></span><div><small>LOW / OUT</small><strong>{lowCount}</strong></div></article></section>
       {view === 'tickets' && <section><div className="admin-tools"><div className="search-box"><Search /><input aria-label="Search tickets" placeholder="Search employee or ticket…" value={query} onChange={(event) => setQuery(event.target.value)} /></div><Button className="primary-action"><Plus /> New order</Button></div><div className="ticket-grid">{visibleTickets.map((ticket) => <article className={`ticket-card ${ticket.status}`} key={ticket.id}><div className="ticket-top"><span>{ticket.id}</span><small>{ticket.status}</small></div><h2>{ticket.employee}</h2><p>{ticket.time}</p><ul>{ticket.lines.map((line) => <li key={line}>{line}</li>)}</ul>{ticket.status === 'open' ? <Button className="fulfill-button" onClick={() => setTickets((current) => current.map((entry) => entry.id === ticket.id ? { ...entry, status: 'fulfilled' } : entry))}><Check /> Fulfill & deduct</Button> : <div className="fulfilled-label"><Check /> Fulfilled</div>}</article>)}</div></section>}
       {view === 'inventory' && <section className="data-panel"><div className="panel-top"><div><h2>Inventory snapshot</h2><p>132 size-level records imported September 2, 2026.</p></div><div><Button variant="outline"><Upload /> Import JSON</Button><Button variant="outline"><Download /> Export</Button></div></div><div className="data-table"><div className="data-row data-head"><span>Item</span><span>Size</span><span>On hand</span><span>Minimum</span><span>Status</span></div>{inventoryRows.map((row) => <div className="data-row" key={`${row.name}-${row.size}`}><strong>{row.name}</strong><span>{row.size}</span><span>{row.qty}</span><span>{row.min}</span><span className={row.qty === 0 ? 'stock-out' : row.qty <= row.min ? 'stock-low' : 'stock-good'}>{row.qty === 0 ? 'Out' : row.qty <= row.min ? 'Low' : 'Good'}</span></div>)}</div></section>}
