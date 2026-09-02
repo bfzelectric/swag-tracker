@@ -1,29 +1,28 @@
 # BFZ Swag Tracker
 
-Interactive GitHub Pages prototype for a simple employee swag request and fulfillment workflow.
+Employee swag requests and inventory fulfillment for BFZ Electric.
 
-## Prototype scope
+## Application behavior
 
-- No-login employee request form with an employee dropdown
-- Guided category, product, and size selection
-- Cart quantity controls and request confirmation
-- Microsoft administrator sign-in concept
-- Admin ticket, inventory, availability, and history views
-- Representative catalog data derived from the supplied 132-row inventory export
+- Public visitors select an active employee and submit a request without signing in.
+- The public catalog contains only inventory marked orderable with stock on hand.
+- BFZ Microsoft accounts can access administration, except `foreman@bfzelectric.com`.
+- Administrators can fulfill requests atomically, manage category availability, search inventory, and import/export inventory snapshots.
+- Fulfillment deducts stock and creates an immutable inventory event.
 
-The prototype is intentionally static: it does not authenticate, send requests, or write to Supabase.
+## Data and security
 
-## Delivery path
-
-1. Review this prototype on GitHub Pages and approve the request/admin experience.
-2. Add dedicated swag inventory and request tables to the existing Supabase project, with row-level security and a one-time JSON import path.
-3. Connect the public request flow to the existing Employees table through a narrowly scoped server endpoint.
-4. Configure Microsoft sign-in for `@bfzelectric.com`, deny `foreman@bfzelectric.com`, and enforce authorization on the server and in database policies.
-5. Deploy the connected application to the existing Vercel project, test fulfillment and inventory deductions end to end, then retire the static mockup.
+The application uses the shared BFZ Supabase project and canonical `employees` table. The migration in `supabase/migrations` creates namespaced swag tables, indexes, RPCs, explicit grants, and row-level security policies. Public database access is limited to three validated RPCs: the active employee name picker, orderable catalog, and request submission.
 
 ## Local development
+
+Copy `.env.example` to `.env.local` and populate the documented public settings, then run:
 
 ```bash
 npm install
 npm run dev
 ```
+
+## Deployment
+
+The repository is linked to the BFZ Electric `swag-tracker` Vercel project and GitHub repository. Production, preview, and development environments require the three keys listed in `.env.example`.
