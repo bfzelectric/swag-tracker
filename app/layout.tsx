@@ -5,7 +5,8 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'BFZ Swag Tracker — Request Employee Gear',
   description: 'Request, track, and fulfill BFZ employee gear from one simple workspace.',
-  metadataBase: new URL('https://bfzelectric.github.io/swag-tracker/'),
+  metadataBase: new URL('https://swag-tracker.vercel.app/'),
+  icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'BFZ Swag Tracker',
     description: 'Employee gear, made simple.',
