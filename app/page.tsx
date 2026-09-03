@@ -47,7 +47,7 @@ function groupCatalog(rows: CatalogRow[]): CatalogItem[] {
   }
   return [...grouped.values()].map((entry) => ({ ...entry, sizes: entry.sizes.sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b)) }));
 }
-function Brand() { return <div className="brand"><span className="brand-logo" aria-hidden="true" /><strong>BFZ SWAG TRACKER</strong></div>; }
+function Brand() { return <div className="brand"><span className="brand-logo" aria-hidden="true">SWG</span><strong>BFZ SWAG TRACKER</strong></div>; }
 function ThemeToggle() {
   function toggleTheme() { const root = document.documentElement; const next = root.dataset.theme === 'light' ? 'dark' : 'light'; root.dataset.theme = next; try { localStorage.setItem('bfz-swag-theme', next); } catch { /* applies for this visit */ } }
   return <Button variant="outline" size="icon" className="theme-toggle" aria-label="Toggle color theme" title="Toggle color theme" onClick={toggleTheme}><span className="show-in-dark"><Sun /></span><span className="show-in-light"><Moon /></span></Button>;
