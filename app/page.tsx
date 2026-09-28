@@ -165,7 +165,25 @@ function AdminPreview({ onExit }: { onExit: () => void }) {
     setEmployees((employeeResult.data ?? []) as Employee[]);
     setTickets((requestResult.data ?? []).map((row) => ({ id: row.id, num: Number(row.request_number), employeeId: row.employee_id, employee: row.requested_for_name, createdAt: row.created_at, notes: row.notes, status: row.status as Ticket['status'], fulfilledAt: row.fulfilled_at, deletedAt: row.cancelled_at, adjustedAt: row.adjusted_at, adjustmentNote: row.adjustment_note, originalItems: row.original_items as unknown[] | null, lines: (row.swag_request_items ?? []).map((line) => ({ id: line.id, inventoryId: line.inventory_id, category: line.category, name: line.item_name, color: line.color, size: line.size, qty: line.quantity, fulfilledQty: line.fulfilled_quantity })) })));
   }
-  async function authorize() { const supabase = getSupabaseBrowserClient(); if (!supabase) { const snapshot = await loadBaselineInventory(); setInventory(snapshot.items); setSignedIn(true); setChecking(false); return; } const session = await supabase.auth.getSession(); if (!session.data.session) { setSignedIn(false); setChecking(false); return; } const dataPromise = refreshAdmin(); const access = await supabase.rpc('is_swag_administrator'); if (access.error || access.data !== true) { await supabase.auth.signOut(); setMessage('This Microsoft account is not authorized for BFZ swag administration.'); setSignedIn(false); setChecking(false); return; } setSignedIn(true); setChecking(false); await dataPromise; }
+  async function authorize() {
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) { const snapshot = await loadBaselineInventory(); setInventory(snapshot.items); setSignedIn(true); setChecking(false); return; }
+    const session = await supabase.auth.getUser();
+    if (!session.data.user) { setSignedIn(false); setChecking(false); return; }
+    const appAccess = await supabase.rpc('can_access_platform_app', { p_app: 'swag' });
+    if (appAccess.error || appAccess.data !== true) {
+      setSignedIn(false); setChecking(false);
+      setMessage(appAccess.error ? 'App access could not be verified. Please try again.' : 'This Microsoft account does not have Swag Tracker access.');
+      return;
+    }
+    const access = await supabase.rpc('is_swag_administrator');
+    if (access.error || access.data !== true) {
+      setMessage('This Microsoft account is not authorized for BFZ swag administration.');
+      setSignedIn(false); setChecking(false); return;
+    }
+    await refreshAdmin();
+    setSignedIn(true); setChecking(false);
+  }
   useEffect(() => { void Promise.resolve().then(authorize); const supabase = getSupabaseBrowserClient(); const auth = supabase?.auth.onAuthStateChange((event) => { if (event === 'INITIAL_SESSION') return; window.setTimeout(() => { void authorize(); }, 0); }); return () => auth?.data.subscription.unsubscribe(); }, []);
   async function signIn() { const supabase = getSupabaseBrowserClient(); if (!supabase) { setSignedIn(true); return; } await supabase.auth.signInWithOAuth({ provider: 'azure', options: { redirectTo: `${window.location.origin}/?admin=1`, scopes: 'email' } }); }
   async function signOut() { const supabase = getSupabaseBrowserClient(); if (supabase) await supabase.auth.signOut(); setSignedIn(false); }
