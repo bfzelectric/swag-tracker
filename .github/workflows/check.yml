@@ -1,7 +1,7 @@
 name: Project checks
 on:
   push:
-    branches: [main]
+    branches: [main, 'codex/**']
   pull_request:
 permissions:
   contents: read

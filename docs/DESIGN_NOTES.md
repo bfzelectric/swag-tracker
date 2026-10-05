@@ -8,8 +8,9 @@ approximately 9px corner radius. `Brand` in `shared-controls.tsx` and
 from BFZ's corporate logo. Header wording is “BFZ SWAG TRACKER”.
 
 Typography uses Geist-named semantic font tokens for compatibility with the BFZ program
-family. The current tokens resolve to system Sans/Mono fallbacks (there is no downloaded
-Geist font in this repo). Preserve this appearance unless explicitly changing typography.
+family, with system Sans/Mono fallbacks. Font assets can also be supplied by the existing
+build/preview integration; avoid assuming the route layout downloads them directly.
+Preserve this appearance unless explicitly changing typography.
 Inventory body text is 14px. Avoid narrow display fonts.
 
 ## Reuse contract
