@@ -40,3 +40,6 @@ next-env.d.ts
 *.tsbuildinfo
 /tmp/
 /.setup/
+
+# Private new-PC transfer bundle (may contain credentials)
+/pc-transfer/
