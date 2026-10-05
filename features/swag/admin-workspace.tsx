@@ -114,7 +114,7 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
         inventoryResult.error?.message ??
           requestResult.error?.message ??
           employeeResult.error?.message ??
-          'Admin data could not be loaded.',
+          'Administrator data could not be loaded.',
       );
       return;
     }
@@ -790,7 +790,7 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
         </div>
         <header className="admin-top">
           <div>
-            <p className="eyebrow">ADMIN WORKSPACE</p>
+            <p className="eyebrow">ADMINISTRATOR WORKSPACE</p>
             <h1>{navItems.find((entry) => entry.id === view)?.label}</h1>
           </div>
           <div className="header-actions">
