@@ -2,6 +2,11 @@
 
 Employee swag requests and inventory fulfillment for BFZ Electric.
 
+This repository is the single portable project folder. Start with [AGENTS.md](AGENTS.md)
+in Codex, then use the [project structure](docs/PROJECT_STRUCTURE.md),
+[project context](docs/PROJECT_CONTEXT.md), [design notes](docs/DESIGN_NOTES.md),
+and [setup/debugging handbook](docs/DEVELOPMENT.md).
+
 ## Application behavior
 
 - Public visitors select an active employee and submit a request without signing in.
@@ -19,7 +24,7 @@ The application uses the shared BFZ Supabase project and canonical `employees` t
 Copy `.env.example` to `.env.local` and populate the documented public settings, then run:
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 

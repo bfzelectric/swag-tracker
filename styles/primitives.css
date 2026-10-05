@@ -1,0 +1,94 @@
+/* Framework-independent reusable BFZ controls; requires tokens.css. */
+.ui-panel {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+.ui-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ui-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ui-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+}
+.ui-muted {
+  color: var(--muted-foreground);
+}
+.ui-input {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0 11px;
+}
+.ui-input:focus-visible {
+  border-color: var(--ring);
+  outline: 2px solid color-mix(in srgb, var(--ring) 20%, transparent);
+  outline-offset: 2px;
+}
+.ui-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--secondary);
+  color: var(--foreground);
+  padding: 8px 16px;
+  font-weight: 700;
+}
+.ui-button--primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.ui-button--danger {
+  background: var(--destructive);
+  color: var(--background);
+}
+.ui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.ui-button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.ui-message {
+  display: block;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--foreground);
+}
+.ui-message--error {
+  border-color: var(--destructive);
+}
+.ui-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .employee-options,
+  .choice-card,
+  .product-card {
+    animation: none;
+    transition: none;
+  }
+}

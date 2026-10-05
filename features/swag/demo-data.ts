@@ -1,0 +1,61 @@
+import type { Employee, Ticket } from './types';
+export const demoEmployees: Employee[] = [
+  { id: 'demo-alex', employee_name: 'Alex Morgan' },
+  { id: 'demo-casey', employee_name: 'Casey Brooks' },
+  { id: 'demo-jordan', employee_name: 'Jordan Lee' },
+  { id: 'demo-taylor', employee_name: 'Taylor Reed' },
+];
+export const demoTickets: Ticket[] = [
+  {
+    id: 'demo-148',
+    num: 148,
+    employeeId: 'demo-jordan',
+    employee: 'Jordan Lee',
+    createdAt: new Date().toISOString(),
+    notes: '',
+    lines: [
+      {
+        id: 'l1',
+        inventoryId: 'snapshot-31',
+        category: 'Tshirt',
+        name: 'Black Tee',
+        color: 'Black',
+        size: 'L',
+        qty: 1,
+        fulfilledQty: null,
+      },
+    ],
+    status: 'open',
+    fulfilledAt: null,
+    deletedAt: null,
+    adjustedAt: null,
+    adjustmentNote: '',
+    originalItems: null,
+  },
+  {
+    id: 'demo-146',
+    num: 146,
+    employeeId: 'demo-taylor',
+    employee: 'Taylor Reed',
+    createdAt: '2026-08-31T14:04:00Z',
+    notes: '',
+    lines: [
+      {
+        id: 'l2',
+        inventoryId: 'snapshot-13',
+        category: 'Long Sleeve Tshirt',
+        name: 'Gray Long Sleeve',
+        color: 'Gray',
+        size: 'XL',
+        qty: 1,
+        fulfilledQty: 1,
+      },
+    ],
+    status: 'fulfilled',
+    fulfilledAt: '2026-08-31T14:04:00Z',
+    deletedAt: null,
+    adjustedAt: null,
+    adjustmentNote: '',
+    originalItems: null,
+  },
+];
