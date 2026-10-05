@@ -7,6 +7,9 @@ is needed. Clone it into any directory on the new machine.
 swag-tracker/
 ├── AGENTS.md                  Codex onboarding and invariant checklist
 ├── README.md                  Human entry point
+├── START_HERE.md              GitHub Desktop → Codex first-run instructions
+├── SETUP_FOR_CODEX.md         Agent-run setup and precise human fallback steps
+├── scripts/                   Safe setup, environment import and diagnostics
 ├── app/                       Route, document metadata, CSS entry point
 │   ├── page.tsx               Public/admin switch; lazy admin loading
 │   ├── layout.tsx             Metadata and initial theme

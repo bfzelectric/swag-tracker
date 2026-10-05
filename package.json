@@ -9,9 +9,11 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint app features lib components/ui/button.tsx components/ui/native-select.tsx components/ui/textarea.tsx",
+    "lint": "oxlint app features lib scripts tests/*.mjs components/ui/button.tsx components/ui/native-select.tsx components/ui/textarea.tsx",
     "typecheck": "tsc --noEmit --incremental false",
-    "test": "node --experimental-strip-types --test tests/model.test.mjs",
+    "test": "node --experimental-strip-types --test tests/model.test.mjs tests/setup.test.mjs",
+    "setup": "node scripts/setup.mjs",
+    "doctor": "node scripts/setup.mjs --check",
     "check": "npm run typecheck && npm run lint && npm test",
     "format": "oxfmt"
   },

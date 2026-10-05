@@ -2,6 +2,9 @@
 
 Employee swag requests and inventory fulfillment for BFZ Electric.
 
+**New machine:** clone in GitHub Desktop, open the folder in Codex, and say
+“Set up this project using SETUP_FOR_CODEX.md.” See [START_HERE.md](START_HERE.md).
+
 This repository is the single portable project folder. Start with [AGENTS.md](AGENTS.md)
 in Codex, then use the [project structure](docs/PROJECT_STRUCTURE.md),
 [project context](docs/PROJECT_CONTEXT.md), [design notes](docs/DESIGN_NOTES.md),
@@ -27,6 +30,10 @@ Copy `.env.example` to `.env.local` and populate the documented public settings,
 npm ci
 npm run dev
 ```
+
+For assisted first-run configuration use `npm run setup`; `npm run doctor` checks the
+machine without making changes or printing secrets. Codex follows the
+[setup runbook](SETUP_FOR_CODEX.md) and handles the commands for you.
 
 ## Deployment
 

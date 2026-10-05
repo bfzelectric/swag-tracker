@@ -2,6 +2,11 @@
 
 ## Another machine
 
+Prefer the simple [GitHub Desktop + Codex flow](../START_HERE.md). Codex should run
+the [agent setup runbook](../SETUP_FOR_CODEX.md), automating the following steps instead
+of asking the user to perform terminal work. `npm run setup` prepares dependencies and
+local settings; `npm run doctor` reports only readiness and missing setting names.
+
 1. Install Git and Node 22.13+ (use the same major as CI where possible).
 2. Clone `https://github.com/bfzelectric/swag-tracker.git` and open that folder in Codex.
 3. Read `AGENTS.md`; run `npm ci` to reproduce locked dependencies.

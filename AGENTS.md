@@ -3,6 +3,14 @@
 This repository is the complete project folder. Read this file first; read only the
 documentation relevant to the current task to avoid repeatedly loading the whole app.
 
+## Fresh clone / setup request
+
+When the user asks to set up this machine, read `SETUP_FOR_CODEX.md` and perform the
+safe automated setup there. Do not send them a generic list of terminal commands to
+do themselves. Complete what you can, then give exact numbered steps only for the
+remaining human sign-ins, approvals or access issues. Cloning alone runs no setup;
+the user must open the cloned folder in Codex and ask for setup.
+
 ## Context routing
 
 - Product requirements and architecture: `docs/PROJECT_CONTEXT.md`.
