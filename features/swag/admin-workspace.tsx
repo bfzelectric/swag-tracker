@@ -1,5 +1,8 @@
 'use client';
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- The ARIA combobox pattern requires listbox and option semantics on the styled popup controls. */
+
 import { Button } from '@/components/ui/button';
+import { sortInventoryRows } from '@/lib/inventory-sort';
 import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase';
 import {
   Archive,
@@ -8,7 +11,7 @@ import {
   Download,
   History,
   LogIn,
-  Minus,
+  Menu,
   Package,
   Pencil,
   Plus,
@@ -17,10 +20,13 @@ import {
   Settings2,
   Trash2,
   Upload,
+  X,
 } from 'lucide-react';
-import { useEffect, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+
 import { loadBaselineInventory } from './baseline';
 import { demoEmployees, demoTickets } from './demo-data';
+import { InventoryRows } from './inventory-rows';
 import {
   blankOrderDraft,
   displayLine,
@@ -39,12 +45,31 @@ import type {
   TicketFilter,
 } from './types';
 export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuButton = useRef<HTMLButtonElement>(null);
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
+    mobileMenuButton.current?.focus();
+  }
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setMobileMenuOpen(false);
+        mobileMenuButton.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [mobileMenuOpen]);
   const [view, setView] = useState<AdminView>('tickets');
   const [signedIn, setSignedIn] = useState(!isSupabaseConfigured());
   const [checking, setChecking] = useState(isSupabaseConfigured());
   const [query, setQuery] = useState('');
   const [historyQuery, setHistoryQuery] = useState('');
   const [inventoryQuery, setInventoryQuery] = useState('');
+  const [inventoryCategory, setInventoryCategory] = useState('');
   const [filter, setFilter] = useState<TicketFilter>('open');
   const [tickets, setTickets] = useState<Ticket[]>(
     isSupabaseConfigured() ? [] : demoTickets,
@@ -142,16 +167,27 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
       setChecking(false);
       return;
     }
-    const session = await supabase.auth.getSession();
-    if (!session.data.session) {
+    const session = await supabase.auth.getUser();
+    if (!session.data.user) {
       setSignedIn(false);
       setChecking(false);
       return;
     }
-    const dataPromise = refreshAdmin();
+    const appAccess = await supabase.rpc('can_access_platform_app', {
+      p_app: 'swag',
+    });
+    if (appAccess.error || appAccess.data !== true) {
+      setSignedIn(false);
+      setChecking(false);
+      setMessage(
+        appAccess.error
+          ? 'App access could not be verified. Please try again.'
+          : 'This Microsoft account does not have Swag Tracker access.',
+      );
+      return;
+    }
     const access = await supabase.rpc('is_swag_administrator');
     if (access.error || access.data !== true) {
-      await supabase.auth.signOut();
       setMessage(
         'This Microsoft account is not authorized for BFZ swag administration.',
       );
@@ -159,9 +195,9 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
       setChecking(false);
       return;
     }
+    await refreshAdmin();
     setSignedIn(true);
     setChecking(false);
-    await dataPromise;
   }
   useEffect(() => {
     void Promise.resolve().then(authorize);
@@ -613,10 +649,17 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
         ? ticket.status !== 'cancelled'
         : ticket.status === filter,
   );
-  const visibleInventory = inventory.filter((row) =>
-    `${row.name} ${row.category} ${row.color} ${row.size}`
-      .toLowerCase()
-      .includes(inventoryQuery.toLowerCase()),
+  const inventoryCategories = [
+    ...new Set(inventory.map((row) => row.category)),
+  ].sort((a, b) => a.localeCompare(b));
+  const visibleInventory = sortInventoryRows(
+    inventory.filter(
+      (row) =>
+        (!inventoryCategory || row.category === inventoryCategory) &&
+        `${row.name} ${row.category} ${row.color} ${row.size}`
+          .toLowerCase()
+          .includes(inventoryQuery.toLowerCase()),
+    ),
   );
   const lowCount = inventory.filter((row) => row.qty <= row.min).length;
   const availabilityCategories = [
@@ -649,10 +692,13 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
     <div className="admin-app">
       <aside className="admin-sidebar">
         <Brand />
-        <nav>
+        <nav aria-label="Workspace">
           {navItems.map((entry) => (
             <button
               key={entry.id}
+              aria-label={entry.label}
+              title={entry.label}
+              aria-current={view === entry.id ? 'page' : undefined}
               className={view === entry.id ? 'active' : ''}
               onClick={() =>
                 entry.id === 'new' ? beginNew() : setView(entry.id)
@@ -680,14 +726,67 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
         </div>
       </aside>
       <main className="admin-main">
-        <div className="mobile-admin-bar">
-          <Brand />
-          <div className="header-actions">
-            <ThemeToggle />
-            <Button variant="outline" size="sm" onClick={onExit}>
-              Exit
-            </Button>
+        <div className="mobile-admin-header">
+          <div className="mobile-admin-bar">
+            <Brand />
+            <div className="header-actions">
+              <ThemeToggle />
+              <Button
+                ref={mobileMenuButton}
+                variant="outline"
+                size="icon"
+                aria-label={
+                  mobileMenuOpen
+                    ? 'Close navigation menu'
+                    : 'Open navigation menu'
+                }
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-admin-navigation"
+                onClick={() => setMobileMenuOpen((open) => !open)}
+              >
+                {mobileMenuOpen ? <X /> : <Menu />}
+              </Button>
+            </div>
           </div>
+          <nav
+            id="mobile-admin-navigation"
+            className="mobile-admin-nav"
+            aria-label="Mobile workspace"
+            hidden={!mobileMenuOpen}
+          >
+            {navItems.map((entry) => (
+              <button
+                type="button"
+                key={entry.id}
+                aria-current={view === entry.id ? 'page' : undefined}
+                className={view === entry.id ? 'active' : ''}
+                onClick={() => {
+                  if (entry.id === 'new') beginNew();
+                  else setView(entry.id);
+                  closeMobileMenu();
+                }}
+              >
+                {entry.icon}
+                <span>{entry.label}</span>
+                {entry.id === 'tickets' && (
+                  <b>
+                    {
+                      tickets.filter((ticket) => ticket.status === 'open')
+                        .length
+                    }
+                  </b>
+                )}
+              </button>
+            ))}
+            <div className="mobile-admin-nav-actions">
+              <Button variant="outline" onClick={onExit}>
+                View request form
+              </Button>
+              <Button variant="ghost" onClick={signOut}>
+                <LogIn /> Sign out
+              </Button>
+            </div>
+          </nav>
         </div>
         <header className="admin-top">
           <div>
@@ -1012,6 +1111,28 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
                   Showing {visibleInventory.length} of {inventory.length}
                 </small>
               </div>
+              <div
+                className="filter-chips inventory-categories"
+                aria-label="Filter inventory by category"
+              >
+                <button
+                  className={!inventoryCategory ? 'active' : ''}
+                  aria-pressed={!inventoryCategory}
+                  onClick={() => setInventoryCategory('')}
+                >
+                  All categories
+                </button>
+                {inventoryCategories.map((category) => (
+                  <button
+                    key={category}
+                    className={inventoryCategory === category ? 'active' : ''}
+                    aria-pressed={inventoryCategory === category}
+                    onClick={() => setInventoryCategory(category)}
+                  >
+                    {labelCategory(category)}
+                  </button>
+                ))}
+              </div>
               <div className="data-table">
                 <div className="data-row data-head">
                   <span>Item</span>
@@ -1022,76 +1143,19 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
                   <span>Status</span>
                   <span>Remove</span>
                 </div>
-                {visibleInventory.map((row) => (
-                  <div className="data-row" key={row.id}>
-                    <strong>{row.name}</strong>
-                    <span>{labelCategory(row.category)}</span>
-                    <span>{row.size || 'One size'}</span>
-                    <span className="table-qty">
-                      <button
-                        aria-label={`Remove one ${row.name}`}
-                        disabled={busyId === row.id || row.qty === 0}
-                        onClick={() => setInventoryQuantity(row, row.qty - 1)}
-                      >
-                        <Minus />
-                      </button>
-                      <input
-                        key={row.qty}
-                        aria-label={`${row.name} quantity`}
-                        type="number"
-                        min="0"
-                        defaultValue={row.qty}
-                        onBlur={(event) =>
-                          setInventoryQuantity(row, Number(event.target.value))
-                        }
-                      />
-                      <button
-                        aria-label={`Add one ${row.name}`}
-                        disabled={busyId === row.id}
-                        onClick={() => setInventoryQuantity(row, row.qty + 1)}
-                      >
-                        <Plus />
-                      </button>
-                    </span>
-                    <span>
-                      <input
-                        key={row.min}
-                        className="minimum-input"
-                        aria-label={`${row.name} minimum stock`}
-                        type="number"
-                        min="0"
-                        disabled={busyId === `minimum-${row.id}`}
-                        defaultValue={row.min}
-                        onBlur={(event) =>
-                          setInventoryMinimum(row, Number(event.target.value))
-                        }
-                      />
-                    </span>
-                    <span
-                      className={
-                        row.qty === 0
-                          ? 'stock-out'
-                          : row.qty <= row.min
-                            ? 'stock-low'
-                            : 'stock-good'
-                      }
-                    >
-                      {row.qty === 0
-                        ? 'Out'
-                        : row.qty <= row.min
-                          ? 'Low'
-                          : 'Good'}
-                    </span>
-                    <button
-                      className="icon-danger"
-                      aria-label={`Remove ${row.name} ${row.size}`}
-                      onClick={() => removeInventory(row)}
-                    >
-                      <Trash2 />
-                    </button>
-                  </div>
-                ))}
+                <InventoryRows
+                  rows={visibleInventory}
+                  busyId={busyId}
+                  onQuantityChange={setInventoryQuantity}
+                  onMinimumChange={setInventoryMinimum}
+                  onRemove={removeInventory}
+                />
               </div>
+              {!visibleInventory.length && (
+                <p className="empty-state">
+                  No inventory matches this category or search.
+                </p>
+              )}
             </section>
           </section>
         )}

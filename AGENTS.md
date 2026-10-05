@@ -24,6 +24,8 @@ the user must open the cloned folder in Codex and ask for setup.
 - Zero-stock, disabled and archived inventory must not be publicly orderable.
 - Employee selection comes from the shared BFZ Employees database, not a separate copy.
 - Administrator authorization is enforced by Supabase RLS/RPCs, not hidden UI alone.
+- Preserve centralized app permission checks, read-only RLS evaluation, mobile admin
+  navigation, inventory category/size sorting and the existing server-side stock email pilot.
 - Microsoft login returns to this app (`/?admin=1`), not the BFZ platform home.
 - Do not add navigation from this tool to the company platform.
 - Branding is the yellow SWG rounded-square mark, not the corporate BFZ or blue starter logo.

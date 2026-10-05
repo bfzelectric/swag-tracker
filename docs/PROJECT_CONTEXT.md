@@ -17,9 +17,12 @@ sources; the maintained implementation, migrations and baseline are in this repo
 - Public catalog contains only available, orderable, non-archived size-level stock.
 - Public users select a shared employee record, not an authenticated identity.
 - Microsoft/Azure administrator login returns to this app's administrator workspace.
-- Server-side administrator eligibility currently requires a confirmed BFZ email,
-  Azure identity and excludes `foreman@bfzelectric.com`. Do not display that internal
-  exclusion as login-page copy. Check migrations before changing policy.
+- Administrator access also obeys centralized BFZ app permissions. The browser checks
+  `can_access_platform_app('swag')`, then `is_swag_administrator`, before fetching admin data.
+  The latest read policy uses `private.swag_access_snapshot()` without provisioning writes.
+  This depends on the shared platform's roles, department/employee match and app overrides,
+  plus existing edit eligibility. Earlier migrations describe legacy BFZ-email/Azure rules;
+  do not treat those alone as the current full access policy or expose exclusions in UI copy.
 - Admin features: ticket creation/editing, fulfillment, reopen, delete/restore/purge,
   history/search, inventory quantity/minimum edits, archive, category/product availability,
   occasional JSON import/export and original-catalog restore.
@@ -35,6 +38,12 @@ Admin authorization uses `is_swag_administrator`. Administrator data reads come 
 `swag_inventory`, `swag_requests` and nested `swag_request_items`; inventory events are
 recorded server-side. Migrations are the authoritative reference for exact columns,
 grants and RPC arguments.
+
+Inventory is grouped by category with category filters and natural clothing-size order;
+mobile admin navigation remains accessible when the desktop sidebar is hidden.
+The Camo Beanies low-stock email pilot is server-side (queue, Cron and Edge Function),
+not dependent on any development machine. See `docs/low-stock-email.md`; never reconnect
+its Microsoft sender or redeploy the function merely to configure a new machine.
 
 Stock is deducted when fulfilling, not when submitting. Fulfillment deducts available
 stock atomically and reports shortages; reopening does not automatically restore stock.

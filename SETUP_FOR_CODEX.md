@@ -94,4 +94,8 @@ account connections from requirements for running locally. Do not mark fully lin
 the relevant checks have succeeded. Do not claim this sets up unrelated BFZ apps or copies
 account sessions from the old machine.
 
+The existing Camo Beanies stock-alert sender, queue and Cron live on the server.
+Do not reconnect Microsoft mail or run `scripts/connect-swag-mail.mjs` as part of a
+new-machine setup. See `docs/low-stock-email.md` only for actual mail maintenance.
+
 Reference: [official Codex project instructions](https://learn.chatgpt.com/docs/agent-configuration/agents-md).

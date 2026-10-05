@@ -1,4 +1,6 @@
 'use client';
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- The ARIA combobox pattern requires listbox and option semantics on the styled popup controls. */
+
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase';
@@ -12,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
 import { loadBaselineInventory } from './baseline';
 import { demoEmployees } from './demo-data';
 import { groupCatalog, ticketLabel } from './model';
@@ -243,10 +246,6 @@ export function PublicOrder({ onAdmin }: { onAdmin: () => void }) {
           <div>
             <p className="eyebrow">BFZ EMPLOYEE GEAR</p>
             <h1>Request company swag.</h1>
-            <p>
-              Choose who it’s for, add the items you need, and the BFZ team will
-              take it from there.
-            </p>
           </div>
           <div className="mini-process" aria-hidden="true">
             <span className="active">1</span>

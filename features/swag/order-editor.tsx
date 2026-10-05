@@ -1,8 +1,11 @@
 'use client';
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- The ARIA combobox pattern requires listbox and option semantics on the styled popup controls. */
+
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Minus, Plus, X } from 'lucide-react';
 import { useState } from 'react';
+
 import { labelCategory } from './model';
 import { EmployeeCombobox } from './shared-controls';
 import type { Employee, InventoryRow, OrderDraft } from './types';

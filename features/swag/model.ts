@@ -1,19 +1,9 @@
 import type { CatalogRow, CatalogItem, OrderDraft, TicketLine } from './types';
+import { compareInventorySizes } from '../../lib/inventory-sort.ts';
 const categoryLabels: Record<string, string> = {
   Tshirt: 'T-shirts',
   'Long Sleeve Tshirt': 'Long sleeves',
 };
-const sizeOrder = [
-  'XS',
-  'S',
-  'M',
-  'L',
-  'XL',
-  'XXL',
-  'XXXL',
-  'XXXXL',
-  'One size',
-];
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   dateStyle: 'medium',
   timeStyle: 'short',
@@ -47,9 +37,7 @@ export function groupCatalog(rows: CatalogRow[]): CatalogItem[] {
   }
   return [...grouped.values()].map((entry) => ({
     ...entry,
-    sizes: entry.sizes.sort(
-      (a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b),
-    ),
+    sizes: entry.sizes.sort(compareInventorySizes),
   }));
 }
 export function displayLine(line: TicketLine) {

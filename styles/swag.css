@@ -1396,6 +1396,156 @@
   contain-intrinsic-size: auto 64px;
 }
 
+.inventory-categories {
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.admin-main {
+  min-width: 0;
+}
+.mobile-admin-header {
+  display: none;
+}
+.inventory-category-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 15px;
+  border-bottom: 1px solid var(--border);
+  background: var(--secondary);
+}
+.inventory-category-heading svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary);
+}
+.inventory-category-heading strong {
+  font-size: 12px;
+}
+.inventory-category-heading small {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+/* Portrait navigation stays available even when the desktop sidebar is hidden. */
+@media (max-width: 650px) {
+  .mobile-admin-header {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--background);
+    margin-bottom: 24px;
+  }
+  .mobile-admin-header .mobile-admin-bar {
+    margin-bottom: 0;
+    gap: 8px;
+  }
+  .mobile-admin-bar .header-actions {
+    flex-shrink: 0;
+    gap: 8px;
+  }
+  .mobile-admin-bar .header-actions button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .mobile-admin-nav:not([hidden]) {
+    display: grid;
+    gap: 4px;
+    padding: 8px 0 14px;
+    border-bottom: 1px solid var(--border);
+    max-height: calc(100dvh - 66px);
+    overflow-y: auto;
+  }
+  .mobile-admin-nav[hidden] {
+    display: none;
+  }
+  .mobile-admin-nav > button {
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 7px;
+    text-align: left;
+    background: transparent;
+    color: var(--foreground);
+    font-size: 14px;
+  }
+  .mobile-admin-nav > button.active {
+    background: var(--accent);
+    box-shadow: inset 3px 0 var(--primary);
+  }
+  .mobile-admin-nav svg {
+    width: 18px;
+    height: 18px;
+  }
+  .mobile-admin-nav b {
+    min-width: 24px;
+    padding: 2px 6px;
+    border-radius: 12px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    text-align: center;
+    font-size: 12px;
+  }
+  .mobile-admin-nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 10px;
+    margin-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .mobile-admin-nav-actions button {
+    min-height: 44px;
+  }
+  .admin-main .panel-top {
+    flex-wrap: wrap;
+  }
+  .admin-main .panel-top > div:last-child:not(.search-box) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .admin-main .filter-chips {
+    flex-wrap: wrap;
+  }
+  .admin-main .filter-chips button,
+  .admin-main .table-qty button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .admin-main input,
+  .admin-main select,
+  .admin-main textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .admin-main .availability-row {
+    gap: 12px;
+  }
+  .admin-main .ticket-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-main .ticket-card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-main .ticket-actions {
+    flex-wrap: wrap;
+  }
+  .admin-main .ticket-actions button {
+    min-height: 44px;
+  }
+  .admin-main .data-row {
+    grid-template-columns: 2fr 1.1fr 0.65fr 138px 0.7fr 0.7fr 44px;
+  }
+}
+
 @media (max-width: 920px) {
   .order-layout {
     grid-template-columns: 1fr;
