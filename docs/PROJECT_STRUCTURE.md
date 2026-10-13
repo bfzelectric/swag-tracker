@@ -19,6 +19,7 @@ swag-tracker/
 │   ├── admin-workspace.tsx    Auth, database operations and admin views
 │   ├── order-editor.tsx       Administrator create/edit order form
 │   ├── inventory-rows.tsx     Grouped inventory categories and stock controls
+│   ├── stock-timeline.tsx     Saved, grouped stock-change timeline and pagination
 │   ├── shared-controls.tsx    Brand, theme, category icon, employee search
 │   ├── model.ts               Pure catalog, label and draft helpers
 │   ├── types.ts               Shared domain types

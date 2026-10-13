@@ -41,6 +41,10 @@ grants and RPC arguments.
 
 Inventory is grouped by category with category filters and natural clothing-size order;
 mobile admin navigation remains accessible when the desktop sidebar is hidden.
+Inventory also has a saved stock-change timeline, beside the table on wide screens and
+below it on small screens. Per-person sessions end after five minutes without changes;
+each item/size has separate addition and removal totals. Database snapshots survive item
+deletion and include changes from imports and fulfillment. See `stock-history.md`.
 The Camo Beanies low-stock email pilot is server-side (queue, Cron and Edge Function),
 not dependent on any development machine. See `docs/low-stock-email.md`; never reconnect
 its Microsoft sender or redeploy the function merely to configure a new machine.

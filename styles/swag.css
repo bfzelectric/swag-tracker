@@ -1726,3 +1726,39 @@
     padding: 40px 22px;
   }
 }
+
+/* Stock history alongside the inventory workspace. */
+.admin-main.inventory-workspace { width:100%; max-width:1900px; }
+.inventory-layout { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:24px; align-items:start; }
+.inventory-primary { min-width:0; }
+.inventory-primary>.data-panel { overflow-x:auto; }
+.inventory-primary .data-table { min-width:880px; }
+.inventory-table-scroll { max-height:65vh; overflow:auto; border-radius:7px; }
+.inventory-table-scroll .data-head { position:sticky; top:0; z-index:1; }
+.inventory-primary .panel-top { flex-wrap:wrap; }
+.inventory-primary .panel-top>div:last-child { flex-wrap:wrap; }
+.stock-timeline { position:sticky; top:24px; min-width:0; padding:20px; border:1px solid var(--border); border-radius:9px; background:var(--card); }
+.stock-timeline>header,.stock-change-card>header { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+.stock-timeline h2 { display:flex; align-items:center; gap:8px; margin:0; font-size:18px; }
+.stock-timeline h2 svg { width:18px; }
+.stock-timeline>header p,.stock-history-note { color:var(--muted-foreground); font-size:12px; line-height:1.5; }
+.stock-timeline .text-input { margin:4px 0 16px; }
+.stock-timeline-scroll { max-height:65vh; overflow-y:auto; overscroll-behavior:contain; padding-right:4px; }
+.stock-change-card { padding:14px; margin-bottom:12px; border:1px solid var(--border); border-left:3px solid var(--primary); border-radius:7px; background:var(--background); overflow-wrap:anywhere; }
+.stock-change-card time { font-size:12px; font-weight:600; }
+.stock-change-card small { display:block; color:var(--muted-foreground); font-size:11px; }
+.stock-change-card>header small { white-space:nowrap; }
+.stock-change-actor { margin:6px 0 2px; color:var(--muted-foreground); font-size:12px; }
+.stock-change-card ul { list-style:none; padding:0; margin:12px 0 0; }
+.stock-change-card li { padding:10px 0; border-top:1px solid var(--border); }
+.stock-change-card li:last-child { padding-bottom:0; }
+.stock-change-card li strong { display:block; margin-bottom:3px; font-size:13px; }
+.stock-change-totals { display:flex; flex-wrap:wrap; gap:8px; margin:7px 0; font-size:13px; font-weight:600; }
+.stock-removed { color:var(--warning); }
+.stock-added { color:var(--primary); }
+.stock-history-note { margin:14px 0 0; }
+@media (max-width:1250px) {
+  .inventory-layout { grid-template-columns:minmax(0,1fr); }
+  .stock-timeline { position:static; }
+  .stock-timeline-scroll { max-height:600px; }
+}

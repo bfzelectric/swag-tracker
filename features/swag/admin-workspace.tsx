@@ -1,6 +1,9 @@
 'use client';
+/* oxlint-disable jsx-a11y/no-noninteractive-tabindex -- The named inventory scroll region needs keyboard focus for arrow-key scrolling. */
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- The ARIA combobox pattern requires listbox and option semantics on the styled popup controls. */
 
+import { StockTimeline } from './stock-timeline';
+import type { StockChange } from '@/lib/stock-history';
 import { Button } from '@/components/ui/button';
 import { sortInventoryRows } from '@/lib/inventory-sort';
 import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase';
@@ -45,6 +48,34 @@ import type {
   TicketFilter,
 } from './types';
 export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
+  const [stockRevision, setStockRevision] = useState(0);
+  const [demoStockEvents, setDemoStockEvents] = useState<StockChange[]>([]);
+  const quantityWrites = useRef(new Set<string>());
+  function recordDemoStock(
+    row: InventoryRow,
+    quantity: number,
+    action = 'adjusted',
+  ) {
+    if (isSupabaseConfigured()) return;
+    setDemoStockEvents((events) => [
+      ...events,
+      {
+        id: crypto.randomUUID(),
+        inventory_id: row.id,
+        category: row.category,
+        item_name: row.name,
+        color: row.color,
+        size: row.size,
+        previous_quantity: row.qty,
+        resulting_quantity: quantity,
+        quantity_change: quantity - row.qty,
+        action,
+        actor_user_id: 'demo',
+        actor_label: 'Demo administrator',
+        created_at: new Date().toISOString(),
+      },
+    ]);
+  }
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuButton = useRef<HTMLButtonElement>(null);
   function closeMobileMenu() {
@@ -250,6 +281,7 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
       return false;
     }
     setMessage(success);
+    setStockRevision((value) => value + 1);
     if (refreshAfter) await refreshAdmin();
     return result.data;
   }
@@ -394,35 +426,39 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
     if (data === false) await refreshAdmin();
   }
   async function setInventoryQuantity(row: InventoryRow, next: number) {
-    if (!Number.isSafeInteger(next)) {
-      setMessage('Quantity must be a whole number.');
+    if (!Number.isSafeInteger(next) || next < 0) {
+      setMessage('Enter a whole stock quantity of zero or more.');
       return;
     }
-    const quantity = Math.max(0, next);
-    if (quantity === row.qty) return;
-    const previous = row.qty;
+    if (next === row.qty || quantityWrites.current.has(row.id)) return;
+    quantityWrites.current.add(row.id);
     setInventory((rows) =>
       rows.map((entry) =>
-        entry.id === row.id ? { ...entry, qty: quantity } : entry,
+        entry.id === row.id ? { ...entry, qty: next } : entry,
       ),
     );
-    const data = await runRpc(
-      'adjust_swag_inventory',
-      {
-        p_inventory_id: row.id,
-        p_quantity: quantity,
-        p_note: 'Adjusted from the swag tracker inventory table.',
-      },
-      row.id,
-      'Inventory updated.',
-      false,
-    );
-    if (data === false)
-      setInventory((rows) =>
-        rows.map((entry) =>
-          entry.id === row.id ? { ...entry, qty: previous } : entry,
-        ),
+    try {
+      const data = await runRpc(
+        'adjust_swag_inventory',
+        {
+          p_inventory_id: row.id,
+          p_quantity: next,
+          p_note: 'Adjusted from the swag tracker inventory table.',
+        },
+        row.id,
+        'Inventory updated.',
+        false,
       );
+      if (data === false)
+        setInventory((rows) =>
+          rows.map((entry) =>
+            entry.id === row.id ? { ...entry, qty: row.qty } : entry,
+          ),
+        );
+      else recordDemoStock(row, next);
+    } finally {
+      quantityWrites.current.delete(row.id);
+    }
   }
   async function setInventoryMinimum(row: InventoryRow, next: number) {
     if (!Number.isSafeInteger(next)) {
@@ -500,8 +536,10 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
       'Inventory item removed.',
       false,
     );
-    if (data !== false)
+    if (data !== false) {
+      recordDemoStock(row, 0, 'removed');
       setInventory((rows) => rows.filter((entry) => entry.id !== row.id));
+    }
   }
   async function importRows(
     items: unknown[],
@@ -725,7 +763,9 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
           </button>
         </div>
       </aside>
-      <main className="admin-main">
+      <main
+        className={`admin-main ${view === 'inventory' ? 'inventory-workspace' : ''}`}
+      >
         <div className="mobile-admin-header">
           <div className="mobile-admin-bar">
             <Brand />
@@ -1013,150 +1053,165 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
           />
         )}
         {view === 'inventory' && (
-          <section>
-            <div className="data-panel inventory-add">
-              <div>
-                <input
-                  aria-label="Category"
-                  placeholder="Category"
-                  value={addRow.category}
-                  onChange={(event) =>
-                    setAddRow({ ...addRow, category: event.target.value })
-                  }
-                />
-                <input
-                  aria-label="Item name"
-                  placeholder="Item name"
-                  value={addRow.name}
-                  onChange={(event) =>
-                    setAddRow({ ...addRow, name: event.target.value })
-                  }
-                />
-                <input
-                  aria-label="Color"
-                  placeholder="Color"
-                  value={addRow.color}
-                  onChange={(event) =>
-                    setAddRow({ ...addRow, color: event.target.value })
-                  }
-                />
-                <input
-                  aria-label="Size"
-                  placeholder="Size"
-                  value={addRow.size}
-                  onChange={(event) =>
-                    setAddRow({ ...addRow, size: event.target.value })
-                  }
-                />
-                <input
-                  aria-label="Quantity"
-                  type="number"
-                  min="0"
-                  value={addRow.qty}
-                  onChange={(event) =>
-                    setAddRow({ ...addRow, qty: event.target.value })
-                  }
-                />
-                <Button
-                  className="primary-action"
-                  disabled={busyId === 'add-inventory'}
-                  onClick={addInventory}
-                >
-                  <Plus /> Add
-                </Button>
-              </div>
-            </div>
-            <section className="data-panel">
-              <div className="panel-top">
-                <div>
-                  <h2>Inventory</h2>
-                  <p>{inventory.length} live size-level records.</p>
-                </div>
+          <section className="inventory-layout">
+            <div className="inventory-primary">
+              <div className="data-panel inventory-add">
                 <div>
                   <input
-                    id="inventory-import"
-                    type="file"
-                    accept="application/json,.json"
-                    hidden
-                    onChange={importInventory}
+                    aria-label="Category"
+                    placeholder="Category"
+                    value={addRow.category}
+                    onChange={(event) =>
+                      setAddRow({ ...addRow, category: event.target.value })
+                    }
+                  />
+                  <input
+                    aria-label="Item name"
+                    placeholder="Item name"
+                    value={addRow.name}
+                    onChange={(event) =>
+                      setAddRow({ ...addRow, name: event.target.value })
+                    }
+                  />
+                  <input
+                    aria-label="Color"
+                    placeholder="Color"
+                    value={addRow.color}
+                    onChange={(event) =>
+                      setAddRow({ ...addRow, color: event.target.value })
+                    }
+                  />
+                  <input
+                    aria-label="Size"
+                    placeholder="Size"
+                    value={addRow.size}
+                    onChange={(event) =>
+                      setAddRow({ ...addRow, size: event.target.value })
+                    }
+                  />
+                  <input
+                    aria-label="Quantity"
+                    type="number"
+                    min="0"
+                    value={addRow.qty}
+                    onChange={(event) =>
+                      setAddRow({ ...addRow, qty: event.target.value })
+                    }
                   />
                   <Button
-                    variant="outline"
-                    disabled={busyId === 'import'}
-                    onClick={() =>
-                      document.getElementById('inventory-import')?.click()
-                    }
+                    className="primary-action"
+                    disabled={busyId === 'add-inventory'}
+                    onClick={addInventory}
                   >
-                    <Upload /> Import
-                  </Button>
-                  <Button variant="outline" onClick={restoreOriginalCatalog}>
-                    <RotateCcw /> Original catalog
-                  </Button>
-                  <Button variant="outline" onClick={exportInventory}>
-                    <Download /> Export
+                    <Plus /> Add
                   </Button>
                 </div>
               </div>
-              <div className="inventory-toolbar">
-                <div className="search-box">
-                  <Search />
-                  <input
-                    aria-label="Search inventory"
-                    placeholder="Search item, category, color, or size…"
-                    value={inventoryQuery}
-                    onChange={(event) => setInventoryQuery(event.target.value)}
-                  />
+              <section className="data-panel">
+                <div className="panel-top">
+                  <div>
+                    <h2>Inventory</h2>
+                    <p>{inventory.length} live size-level records.</p>
+                  </div>
+                  <div>
+                    <input
+                      id="inventory-import"
+                      type="file"
+                      accept="application/json,.json"
+                      hidden
+                      onChange={importInventory}
+                    />
+                    <Button
+                      variant="outline"
+                      disabled={busyId === 'import'}
+                      onClick={() =>
+                        document.getElementById('inventory-import')?.click()
+                      }
+                    >
+                      <Upload /> Import
+                    </Button>
+                    <Button variant="outline" onClick={restoreOriginalCatalog}>
+                      <RotateCcw /> Original catalog
+                    </Button>
+                    <Button variant="outline" onClick={exportInventory}>
+                      <Download /> Export
+                    </Button>
+                  </div>
                 </div>
-                <small>
-                  Showing {visibleInventory.length} of {inventory.length}
-                </small>
-              </div>
-              <div
-                className="filter-chips inventory-categories"
-                aria-label="Filter inventory by category"
-              >
-                <button
-                  className={!inventoryCategory ? 'active' : ''}
-                  aria-pressed={!inventoryCategory}
-                  onClick={() => setInventoryCategory('')}
+                <div className="inventory-toolbar">
+                  <div className="search-box">
+                    <Search />
+                    <input
+                      aria-label="Search inventory"
+                      placeholder="Search item, category, color, or size…"
+                      value={inventoryQuery}
+                      onChange={(event) =>
+                        setInventoryQuery(event.target.value)
+                      }
+                    />
+                  </div>
+                  <small>
+                    Showing {visibleInventory.length} of {inventory.length}
+                  </small>
+                </div>
+                <div
+                  className="filter-chips inventory-categories"
+                  aria-label="Filter inventory by category"
                 >
-                  All categories
-                </button>
-                {inventoryCategories.map((category) => (
                   <button
-                    key={category}
-                    className={inventoryCategory === category ? 'active' : ''}
-                    aria-pressed={inventoryCategory === category}
-                    onClick={() => setInventoryCategory(category)}
+                    className={!inventoryCategory ? 'active' : ''}
+                    aria-pressed={!inventoryCategory}
+                    onClick={() => setInventoryCategory('')}
                   >
-                    {labelCategory(category)}
+                    All categories
                   </button>
-                ))}
-              </div>
-              <div className="data-table">
-                <div className="data-row data-head">
-                  <span>Item</span>
-                  <span>Category</span>
-                  <span>Size</span>
-                  <span>On hand</span>
-                  <span>Minimum</span>
-                  <span>Status</span>
-                  <span>Remove</span>
+                  {inventoryCategories.map((category) => (
+                    <button
+                      key={category}
+                      className={inventoryCategory === category ? 'active' : ''}
+                      aria-pressed={inventoryCategory === category}
+                      onClick={() => setInventoryCategory(category)}
+                    >
+                      {labelCategory(category)}
+                    </button>
+                  ))}
                 </div>
-                <InventoryRows
-                  rows={visibleInventory}
-                  busyId={busyId}
-                  onQuantityChange={setInventoryQuantity}
-                  onMinimumChange={setInventoryMinimum}
-                  onRemove={removeInventory}
-                />
-              </div>
-              {!visibleInventory.length && (
-                <p className="empty-state">
-                  No inventory matches this category or search.
-                </p>
-              )}
-            </section>
+                <div
+                  className="inventory-table-scroll"
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Inventory stock table"
+                >
+                  <div className="data-table">
+                    <div className="data-row data-head">
+                      <span>Item</span>
+                      <span>Category</span>
+                      <span>Size</span>
+                      <span>On hand</span>
+                      <span>Minimum</span>
+                      <span>Status</span>
+                      <span>Remove</span>
+                    </div>
+                    <InventoryRows
+                      rows={visibleInventory}
+                      busyId={busyId}
+                      onQuantityChange={setInventoryQuantity}
+                      onMinimumChange={setInventoryMinimum}
+                      onRemove={removeInventory}
+                    />
+                  </div>
+                </div>
+                {!visibleInventory.length && (
+                  <p className="empty-state">
+                    No inventory matches this category or search.
+                  </p>
+                )}
+              </section>
+            </div>
+            <StockTimeline
+              revision={stockRevision}
+              demoEvents={demoStockEvents}
+            />
           </section>
         )}
         {view === 'availability' && (
