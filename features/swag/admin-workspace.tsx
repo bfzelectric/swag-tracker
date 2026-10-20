@@ -840,7 +840,13 @@ export default function AdminWorkspace({ onExit }: { onExit: () => void }) {
             </Button>
           </div>
         </header>
-        {message && <output className="status-message">{message}</output>}
+        {(message || view === 'inventory') && (
+          <output
+            className={`status-message ${view === 'inventory' ? 'inventory-feedback' : ''}`}
+          >
+            {message}
+          </output>
+        )}
         <section className="stats-grid">
           <article>
             <span>

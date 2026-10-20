@@ -46,6 +46,9 @@ Enter and Escape. Keep combobox/listbox semantics and meaningful labels on icon 
 Quantity steppers use equal-size centered touch targets. Keep visible keyboard focus,
 disabled states and reduced-motion support. Tables may scroll horizontally on mobile;
 do not shrink all stock columns into unreadable text. Breakpoints: 920px and 650px.
+Inventory feedback reserves space while saves run. Keep stock input nodes mounted,
+render inventory rows at their actual height, and suppress double-tap zoom on steppers
+so repeated quantity taps do not move the controls beneath the user's finger.
 
 Theme is stored as `bfz-swag-theme`. Verify both themes and a narrow viewport after
 visual changes. Admin view code is lazy-loaded; don't pull it back into the public bundle.

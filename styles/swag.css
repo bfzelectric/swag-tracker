@@ -1388,7 +1388,6 @@
   gap: 8px;
   margin-top: 20px;
 }
-.data-row:not(.data-head),
 .ticket-card,
 .history-row,
 .availability-group {
@@ -1735,6 +1734,9 @@
 .inventory-primary .data-table { min-width:880px; }
 .inventory-table-scroll { max-height:65vh; overflow:auto; border-radius:7px; }
 .inventory-table-scroll .data-head { position:sticky; top:0; z-index:1; }
+.inventory-feedback { min-height:44px; }
+.inventory-feedback:empty { visibility:hidden; }
+.table-qty button { touch-action:manipulation; }
 .inventory-primary .panel-top { flex-wrap:wrap; }
 .inventory-primary .panel-top>div:last-child { flex-wrap:wrap; }
 .stock-timeline { position:sticky; top:24px; min-width:0; padding:20px; border:1px solid var(--border); border-radius:9px; background:var(--card); }

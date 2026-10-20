@@ -2,11 +2,37 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- The ARIA combobox pattern requires listbox and option semantics on the styled popup controls. */
 
 import { Minus, Plus, Trash2 } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 import { labelCategory } from './model';
 import { CategoryIcon } from './shared-controls';
 import type { InventoryRow } from './types';
+
+function StockQuantityInput({
+  row,
+  onChange,
+}: {
+  row: InventoryRow;
+  onChange: (row: InventoryRow, quantity: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  return (
+    <input
+      aria-label={`${row.name} quantity`}
+      type="number"
+      inputMode="numeric"
+      min="0"
+      value={draft ?? row.qty}
+      onChange={(event) => setDraft(event.target.value)}
+      onBlur={() => {
+        if (draft !== null)
+          onChange(row, draft.trim() === '' ? NaN : Number(draft));
+        setDraft(null);
+      }}
+    />
+  );
+}
+
 export function InventoryRows({
   rows,
   busyId,
@@ -48,16 +74,7 @@ export function InventoryRows({
                   >
                     <Minus />
                   </button>
-                  <input
-                    key={row.qty}
-                    aria-label={`${row.name} quantity`}
-                    type="number"
-                    min="0"
-                    defaultValue={row.qty}
-                    onBlur={(event) =>
-                      onQuantityChange(row, Number(event.target.value))
-                    }
-                  />
+                  <StockQuantityInput row={row} onChange={onQuantityChange} />
                   <button
                     aria-label={`Add one ${row.name}`}
                     disabled={busyId === row.id}
