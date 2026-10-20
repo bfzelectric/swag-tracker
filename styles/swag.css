@@ -1737,6 +1737,38 @@
 .inventory-feedback { min-height:44px; }
 .inventory-feedback:empty { visibility:hidden; }
 .table-qty button { touch-action:manipulation; }
+/* Keep the two identifying columns together while stock controls scroll. */
+@media (max-width:920px) {
+  .inventory-table-scroll { scroll-padding-inline:160px 8px; }
+  .inventory-primary .data-table { min-width:712px; overflow:visible; }
+  .inventory-primary .data-row {
+    grid-template-columns:112px 48px 138px 80px 80px 44px 110px;
+    gap:0;
+    padding-inline:0;
+  }
+  .inventory-primary .data-row > :nth-child(2) { order:1; padding-inline:8px; }
+  .inventory-primary .data-row > :first-child,
+  .inventory-primary .data-row > :nth-child(3) {
+    position:sticky;
+    left:0;
+    z-index:1;
+    align-self:stretch;
+    display:flex;
+    align-items:center;
+    padding:10px 6px;
+    background:var(--card);
+    overflow-wrap:anywhere;
+  }
+  .inventory-primary .data-row:not(.data-head) > :nth-child(3) { font-size:12px; }
+  .inventory-primary .data-row > :nth-child(3) {
+    left:112px;
+    border-right:1px solid var(--border);
+    box-shadow:4px 0 6px -4px var(--muted-foreground);
+  }
+  .inventory-table-scroll .data-head { z-index:2; }
+  .inventory-primary .data-head > :first-child,
+  .inventory-primary .data-head > :nth-child(3) { background:var(--secondary); }
+}
 .inventory-primary .panel-top { flex-wrap:wrap; }
 .inventory-primary .panel-top>div:last-child { flex-wrap:wrap; }
 .stock-timeline { position:sticky; top:24px; min-width:0; padding:20px; border:1px solid var(--border); border-radius:9px; background:var(--card); }

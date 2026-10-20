@@ -49,6 +49,9 @@ do not shrink all stock columns into unreadable text. Breakpoints: 920px and 650
 Inventory feedback reserves space while saves run. Keep stock input nodes mounted,
 render inventory rows at their actual height, and suppress double-tap zoom on steppers
 so repeated quantity taps do not move the controls beneath the user's finger.
+At widths up to 920px, inventory item names and sizes are adjacent sticky columns
+with opaque theme backgrounds. Category moves to the end of the row so the stock
+controls remain beside the identifying columns while scrolling horizontally.
 
 Theme is stored as `bfz-swag-theme`. Verify both themes and a narrow viewport after
 visual changes. Admin view code is lazy-loaded; don't pull it back into the public bundle.
